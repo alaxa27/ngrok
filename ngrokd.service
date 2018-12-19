@@ -1,0 +1,18 @@
+[Unit]
+Description=Tunneling service to access WayBox fleet
+After=syslog.target network.target
+
+[Service]
+WorkingDirectory=/opt/ngrokd
+Type=simple
+PrivateTmp=true
+Restart=always
+RestartSec=1min
+StandardOutput=null
+StandardError=null
+Envrionment='NGROK_DOMAIN=tunnel.way-connect.com'
+ExecStart=/opt/ngrokd/bin/ngrokd -tlsKey=device.key -tlsCrt=device.crt -domain="tunnel.way-connect.com" -httpAddr=":8000" -httpsAddr=":8001"
+ExecStop=/usr/bin/killall ngrokd
+
+[Install]
+WantedBy=multi-user.target
