@@ -28,9 +28,9 @@ func NewWebView(ctl mvc.Controller, addr string) *WebView {
 		ctl:        ctl,
 	}
 
-	// for now, always redirect to the http view
+	// Not redirecting FORK purposes
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/http/in", 302)
+		//http.Redirect(w, r, "/http/in", 302)
 	})
 
 	// handle web socket connections

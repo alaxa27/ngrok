@@ -209,6 +209,19 @@ func (whv *WebHttpView) updateHttp() {
 }
 
 func (whv *WebHttpView) register() {
+	http.HandleFunc("/api/tunnels", func(w http.ResponseWriter, r *http.Request) {
+
+		payloadData := SerializedUiState{Tunnels: whv.ctl.State().GetTunnels()}
+
+		payload, err := json.Marshal(payloadData)
+		if err != nil {
+			panic(err)
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(payload)
+		// w.Write([]byte(payloadData))
+	})
 	http.HandleFunc("/http/in/replay", func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
 			if r := recover(); r != nil {
